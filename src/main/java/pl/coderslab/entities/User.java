@@ -35,11 +35,22 @@ public class User {
 	@OneToMany(mappedBy = "activeUser")
 	private List<Task> tasks;
 
+	@OneToMany(mappedBy = "user")
+	private List<Activity> activities;
+
 	@ManyToMany(mappedBy = "users")
 	private List<Project> projects;
 
 	public User() {
 		super();
+	}
+
+	public List<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
 	}
 
 	public long getId() {
@@ -108,6 +119,7 @@ public class User {
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((projects == null) ? 0 : projects.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((tasks == null) ? 0 : tasks.hashCode());
 		return result;
 	}
 
@@ -147,6 +159,11 @@ public class User {
 				return false;
 		} else if (!surname.equals(other.surname))
 			return false;
+		if (tasks == null) {
+			if (other.tasks != null)
+				return false;
+		} else if (!tasks.equals(other.tasks))
+			return false;
 		return true;
 	}
 
@@ -155,7 +172,6 @@ public class User {
 		this.setSurname(user.getSurname());
 		this.setLogin(user.getLogin());
 	}
-	
 
 	@Override
 	public String toString() {

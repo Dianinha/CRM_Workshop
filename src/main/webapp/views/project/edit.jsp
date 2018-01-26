@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit project</title>
+<%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
+<%@ include file="../fragments/menu.jsp" %>
 <h1>Edit project</h1>
 <br>
 <div>
@@ -30,5 +32,6 @@
 		</div>
 	</form:form>
 </div>
+<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

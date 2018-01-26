@@ -2,6 +2,8 @@ package pl.coderslab.controllers;
 
 import java.time.LocalDateTime;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.coderslab.entities.Activity;
 import pl.coderslab.entities.Project;
+import pl.coderslab.entities.User;
+import pl.coderslab.repositories.ActivityRepository;
 import pl.coderslab.repositories.ProjectRepository;
+import pl.coderslab.repositories.UserRepository;
 
 @Controller
 @RequestMapping(path = "/project")
@@ -21,6 +27,12 @@ public class ProjectController {
 
 	@Autowired
 	private ProjectRepository projectRepo;
+	
+	@Autowired
+	private ActivityRepository activityRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
 	
 	@GetMapping(path = "")
 	public String mainProject(Model model, @RequestParam(name="par", required=false) String msg) {
@@ -46,12 +58,27 @@ public class ProjectController {
 	}
 
 	@PostMapping(path = "/add")
-	public String addNewProjectPost(@ModelAttribute Project project, Model model) {
+	public String addNewProjectPost(@ModelAttribute Project project, Model model, HttpSession session) {
 		model.addAttribute("par", "adds");
 		project.setActive(true);
 		project.setCreated(LocalDateTime.now());
 		project.setIdentifier();
 		projectRepo.save(project);
+		
+		try {
+			User user = userRepo.findOne((Long) session.getAttribute("loggedUser"));
+			Activity activity = new Activity();
+			activity.setCreated(LocalDateTime.now());
+			activity.setUser(user);
+			String msg = activity.getInformation(project);
+			activity.setContent(msg);
+			activityRepo.save(activity);
+			
+		} catch (Exception e) {
+			System.out.println("No logged user ERRO ERROR ERROR");
+		}
+		
+		
 		return "redirect:/project";
 	}
 	

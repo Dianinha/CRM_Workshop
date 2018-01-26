@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Add a new user here:</title>
+<%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
+<%@ include file="../fragments/menu.jsp" %>
 <h1>Add new user</h1>
 <h2>Please register:</h2>
 <br>
@@ -35,5 +37,6 @@
 		</div>
 	</form:form>
 </div>
+<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

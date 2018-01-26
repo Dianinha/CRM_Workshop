@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Add new status</title>
+<%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
+<%@ include file="../fragments/menu.jsp" %>
 <h2>New status:</h2>
 <br>
 <form:form  method="post" modelAttribute="status">
@@ -23,5 +25,6 @@
 			<input type="submit" value="Submit" />
 		</div>
 	</form:form>
+	<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

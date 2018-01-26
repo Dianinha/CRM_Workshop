@@ -130,6 +130,7 @@ public class Project {
 		this.tasks = tasks;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit</title>
+<%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
+<%@ include file="../fragments/menu.jsp" %>
 <h1>Edit user:</h1>
 <form:form method="post" modelAttribute="user">
 		<div>
@@ -27,5 +29,6 @@
 			<input type="submit" value="Save changes" />
 		</div>
 	</form:form>
+	<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

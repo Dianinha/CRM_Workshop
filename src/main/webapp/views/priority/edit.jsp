@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit priority</title>
+<%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
+<%@ include file="../fragments/menu.jsp" %>
 <h2>Edit priority:</h2>
 <br>
 <form:form method="post" modelAttribute="priority">
@@ -20,5 +22,6 @@
 			<input type="submit" value="Submit" />
 		</div>
 	</form:form>
+	<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

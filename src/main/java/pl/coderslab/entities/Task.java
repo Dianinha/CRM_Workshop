@@ -11,14 +11,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name = "tasks")
+@DynamicUpdate
 public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@Column(updatable=false)
 	private LocalDateTime created;
 
 	private String subject;

@@ -7,8 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome to Dianinha CRM</title>
+<%@ include file="fragments/relHead.jsp" %>
 </head>
 <body>
+<%@ include file="fragments/menu.jsp" %>
 	<h1>Welcome to Dianinha's CRM</h1>
 
 	<p>Being, look within and synergize yourself. Humankind has nothing
@@ -25,5 +27,19 @@
 		nothing short of an invocation quantum shift of spatial divinity. We
 		exist as sub-atomic particles. To traverse the myth is to become one
 		with it.</p>
+		
+		
+		<br>
+		<c:if test="${not empty activities}">
+		List of recent activities:
+		<br>
+		<c:forEach items="${activities}" var="act">
+		<c:out value="${act.content}"></c:out>
+		<br>
+		</c:forEach>
+		</c:if>
+		
+		
+		<%@ include file="fragments/relBody.jsp" %>
 </body>
 </html>

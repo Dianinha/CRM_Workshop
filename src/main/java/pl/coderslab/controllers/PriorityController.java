@@ -20,7 +20,7 @@ public class PriorityController {
 	@Autowired
 	private PriorityRepository priorityRepo;
 	
-	@GetMapping(path = "/")
+	@GetMapping(path = "")
 	public String mainPriorirty(Model model, @RequestParam(name="par", required=false) String msg) {
 		model.addAttribute("priorities", priorityRepo.findAllByActive(true));
 		if (msg!=null) {
@@ -48,7 +48,7 @@ public class PriorityController {
 		model.addAttribute("par", "adds");
 		priority.setActive(true);
 		priorityRepo.save(priority);
-		return "redirect:/priority/";
+		return "redirect:/priority";
 	}
 	
 	@GetMapping(path = "/delete/{id}")
@@ -57,7 +57,7 @@ public class PriorityController {
 		Priority prior = priorityRepo.findOne(id);
 		prior.setActive(false);
 		priorityRepo.save(prior);
-		return "redirect:/priority/";
+		return "redirect:/priority";
 	}
 	@GetMapping(path = "/edit/{id}")
 	public String editPriorirty(Model model, @PathVariable("id") long id) {
@@ -70,6 +70,6 @@ public class PriorityController {
 		model.addAttribute("par", "succ");
 		priority.setActive(true);
 		priorityRepo.save(priority);
-		return "redirect:/priority/";
+		return "redirect:/priority";
 	}
 }
