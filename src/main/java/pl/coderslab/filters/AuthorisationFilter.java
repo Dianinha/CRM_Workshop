@@ -9,33 +9,40 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
 @Component
-@WebFilter("/priority")
+@WebFilter(urlPatterns = { "/priority/*", "/task/*", "/user/*", "/project/*", "/status/*" })
 public class AuthorisationFilter implements Filter {
 
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		if(request.getParameter("loggedUser")!=null) {
+		HttpServletRequest req = (HttpServletRequest) request;
+		
+		if(req.getSession().getAttribute("loggedUser")!=null) {
 		chain.doFilter(request,	response);
 		}
-		else {System.out.println("odmowa dostepu");}
+		else {System.out.println("odmowa dostepu");
+		HttpServletResponse resp = (HttpServletResponse) response;
+		resp.sendRedirect("http://localhost:3636/CRM/accessDenied");
+		}
 		
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

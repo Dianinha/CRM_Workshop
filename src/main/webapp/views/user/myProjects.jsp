@@ -18,48 +18,29 @@ ${message}</c:if>
 
 	<div>
 		<h1>Hello ${currentUser.name} ${currentUser.surname}</h1>
-		<h2>What would You like to do?</h2>
-		<ul>
-			<li><a href=<c:url value="/user/edit"></c:url>> Edit Your
-					data.</a></li>
-			<li><a href=<c:url value="/user/changePassword"></c:url>> Change Your password. </a></li>
-		</ul>
+		<h2>Here is detailed list of projects You are involved in:</h2>
 	</div>
-	
+	<a href=<c:url value="/project/add"></c:url>> Add new project </a>
 	<c:if test="${not empty myProjects}">
 	
 	<h2>Projects You are involved in:</h2>
 	<c:forEach items="${myProjects}" var="mypro">
 	<div>
 	Project name: ${mypro.name}
+	Project identifier: ${mypro.identifier}
 	Website: ${mypro.websiteUrl}
 	Creation date: ${mypro.niceDate}
-	
+	Description: ${mypro.niceDate}
+	<a href=<c:url value="/project/edit/${mypro.id}"></c:url>> Edit project </a>
+	<a href=<c:url value="/project/addTask/${mypro.id}"></c:url>> Add task to the project </a>
 	</div>
 	</c:forEach>
-	<a href=<c:url value="/user/myProjects"></c:url>> See all projects with details </a>
 	</c:if>
 	
 	<c:if test="${empty myProjects}">
 	<h2>You are currently not involved in any project</h2>
 	</c:if>
 	
-	<c:if test="${not empty myTasks}">
-	<h2>List of Your tasks:</h2>
-	<c:forEach items="${myTasks}" var="task">
-	<div>
-	Task: ${task.subject}
-	Project: ${task.project.name}
-	Creation date: ${task.niceDate}
-	Status: ${task.status.name} <a href=<c:url value="/task/changeStatus/${task.id}"></c:url>> Change status </a>
-	Priority: ${task.priority.name} 
-	<a href=<c:url value="/task/details/${task.id}"></c:url>> See task details </a>
-	</div>
-	</c:forEach>
-	</c:if>
-	<c:if test="${empty myTasks}">
-	<h2>You have nothing to do. No tasks. Go home.</h2>
-	</c:if>
 	<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

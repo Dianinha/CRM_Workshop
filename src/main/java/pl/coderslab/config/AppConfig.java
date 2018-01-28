@@ -11,12 +11,13 @@ import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @ComponentScan(basePackages = { "pl.coderslab.entities, pl.coderslab.controllers, pl.coderslab.repositories",
-		"pl.coderslab.services", "pl.coderslab.filters" })
+		"pl.coderslab.services", "pl.coderslab.filters", "pl.coderslab.config" })
 @EnableTransactionManagement
 @EnableWebMvc
 @EnableJpaRepositories(basePackages = { "pl.coderslab.repositories" })
@@ -41,6 +42,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setPrefix("/views/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
+	}
+	
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+	    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
 }

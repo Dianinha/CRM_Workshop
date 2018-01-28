@@ -1,5 +1,7 @@
 package pl.coderslab.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pl.coderslab.entities.Project;
+import pl.coderslab.entities.Task;
 import pl.coderslab.entities.User;
+import pl.coderslab.repositories.TaskRepository;
 import pl.coderslab.repositories.UserRepository;
 
 @Controller
@@ -21,19 +26,41 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private TaskRepository taskRepo;
 
-	@GetMapping(path = "/add")
-	public String addNewUser(Model model) {
-		model.addAttribute("user", new User());
-		return "user/add";
-	}
 
-	@PostMapping(path = "/add")
-	public String addNewUserPost(@ModelAttribute User user, Model model, HttpSession session) {
-		model.addAttribute("message", "You have successfully created a new user!");
-		User savedUser = userRepo.save(user);
-		session.setAttribute("loggedUser", savedUser.getId());
+	@GetMapping(path = "")
+	public String userMainPage(Model model, HttpSession session) {
+		long loggedUserId = (long) session.getAttribute("loggedUser");
+		User loggedUser = userRepo.findOne(loggedUserId);
+		model.addAttribute("currentUser", loggedUser);
+		List<Project> userProjects = loggedUser.getProjects();
+		model.addAttribute("myProjects", userProjects);
+		List<Task> userTasks = taskRepo.findByActiveUserId(loggedUserId);
+		model.addAttribute("myTasks", userTasks);
 		return "user/main";
+	}
+	
+	@GetMapping(path = "/myProjects")
+	public String UserProjects(Model model, HttpSession session) {
+		long loggedUserId = (long) session.getAttribute("loggedUser");
+		User loggedUser = userRepo.findOne(loggedUserId);
+		model.addAttribute("currentUser", loggedUser);
+		List<Project> userProjects = loggedUser.getProjects();
+		model.addAttribute("myProjects", userProjects);
+		return "user/myProjects";
+	}
+	
+	@GetMapping(path = "/myTasks")
+	public String UserTask(Model model, HttpSession session) {
+		long loggedUserId = (long) session.getAttribute("loggedUser");
+		User loggedUser = userRepo.findOne(loggedUserId);
+		model.addAttribute("currentUser", loggedUser);
+		List<Task> userTasks = taskRepo.findByActiveUserId(loggedUserId);
+		model.addAttribute("myTasks", userTasks);
+		return "user/myTasks";
 	}
 
 	@GetMapping(path = "/edit")

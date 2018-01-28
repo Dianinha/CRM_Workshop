@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import pl.coderslab.entities.Task;
+import pl.coderslab.entities.User;
 
 @Component
 public interface TaskRepository extends JpaRepository<Task, Long>{
 
-	@Query("select task from Task task where isActive = ?1")
-	List<Task> findAllByActive(boolean active);
+	
+	@Query("select task from Task task where activeUser_id = ?1")
+	List<Task> findByActiveUserId(long id);
 }

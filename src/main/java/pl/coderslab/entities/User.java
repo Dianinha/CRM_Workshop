@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,6 +34,10 @@ public class User {
 	private String surname;
 
 	private String password;
+	
+	@ManyToOne
+	@JoinColumn
+	private UserRole userRole;
 
 	@OneToMany(mappedBy = "activeUser")
 	private List<Task> tasks;
@@ -38,12 +45,34 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Activity> activities;
 
-	@ManyToMany(mappedBy = "users")
+	@ManyToMany(mappedBy = "users", fetch=FetchType.EAGER)
 	private List<Project> projects;
 
 	public User() {
 		super();
 	}
+	
+
+	public User(long id, String login, String name, String surname, String password, UserRole userRole) {
+		super();
+		this.id = id;
+		this.login = login;
+		this.name = name;
+		this.surname = surname;
+		this.password = password;
+		this.userRole = userRole;
+	}
+
+
+	public UserRole getUserRole() {
+		return userRole;
+	}
+
+
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
 
 	public List<Activity> getActivities() {
 		return activities;

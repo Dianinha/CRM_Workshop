@@ -13,4 +13,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
 
 	@Query("select project from Project project where isActive = ?1")
 	List<Project> findAllByActive(boolean active);
+	
 }

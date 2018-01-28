@@ -6,30 +6,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Add new status</title>
+<title>Access denied!</title>
 <%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
 <%@ include file="../fragments/menu.jsp" %>
-<h2>New status:</h2>
+Sorry, You do not have permission to access this page.
+Please log in: <a href= <c:url value="/login"></c:url>> Click here to log in </a>
 <br>
-<form:form  method="post" modelAttribute="status">
-		<div>
-			Name:
-			<form:input path="name" />
-		</div>
-		<div>
-		<form:input type="number" path="sortType" step="1" min="1"/>
-		</div>
-		<div>
-			<input type="submit" value="Submit" />
-		</div>
-	</form:form>
-	
-	
-	
-	
-	
-	<%@ include file="../fragments/relBody.jsp" %>
+
+or register: <a href=<c:url value="/register"></c:url>> Click here to register</a>
+<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

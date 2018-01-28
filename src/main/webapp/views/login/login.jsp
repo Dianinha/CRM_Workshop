@@ -6,29 +6,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Change password</title>
+<title>Log in</title>
 <%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
-<%@ include file="../fragments/userMenu.jsp" %>
-<div>
+<%@ include file="../fragments/menu.jsp" %>
+	<div>
 		<c:if test="${not empty message}">
 ${message}</c:if>
 	</div>
-	<h1>Change Your password</h1>
-	<form method="post" action="/CRM/user/changePassword"> Old password:
+	Please put Your username and password:
+	<form method="post">
+	Username:
+	<input type="text" name="username"> 
 	<br>
-	<input type="password" name="oldPassword">
-	<br> New password:
+	Password
+	<input type="password" name="password">
 	<br>
-	<input type="password" name="newPassword">
+			<div>
+				<input type="submit" value="Log in" />
+			</div>
+		</form>
 	
-	<br> Repeat new password:
-	<br>
-	<input type="password" name="newPassword2">
-	<br> 
-	<input type="submit" value="Change password">
-	</form>
 	<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package pl.coderslab.entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.URL;
@@ -45,6 +47,9 @@ public class Project {
 
 	@OneToMany(mappedBy = "project")
 	private List<Task> tasks;
+	
+	@Transient
+	private String niceDate;
 
 	public Project() {
 		super();
@@ -60,6 +65,21 @@ public class Project {
 
 	public LocalDateTime getCreated() {
 		return created;
+		
+	}
+	
+
+	public String getNiceDate() {
+		setNiceDate();
+		return niceDate;
+	}
+
+	public void setNiceDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		this.niceDate = getCreated().format(formatter);
+	}
+	public void setNiceDate(String niceDate) {
+		this.niceDate = niceDate;
 	}
 
 	public void setCreated(LocalDateTime created) {

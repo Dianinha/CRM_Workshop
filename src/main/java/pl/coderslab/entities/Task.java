@@ -1,6 +1,7 @@
 package pl.coderslab.entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -45,6 +47,9 @@ public class Task {
 	@ManyToOne
 	@JoinColumn
 	private User activeUser;
+	
+	@Transient
+	private String niceDate;
 
 	public Task() {
 		super();
@@ -64,10 +69,25 @@ public class Task {
 
 	public void setCreated(LocalDateTime created) {
 		this.created = created;
+		setNiceDate();
 	}
 
 	public String getSubject() {
 		return subject;
+	}
+	
+
+	public String getNiceDate() {
+		setNiceDate();
+		return niceDate;
+	}
+
+	public void setNiceDate(String niceDate) {
+		this.niceDate = niceDate;
+	}
+	public void setNiceDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		this.niceDate = getCreated().format(formatter);
 	}
 
 	public void setSubject(String subject) {

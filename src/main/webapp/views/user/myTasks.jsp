@@ -18,31 +18,8 @@ ${message}</c:if>
 
 	<div>
 		<h1>Hello ${currentUser.name} ${currentUser.surname}</h1>
-		<h2>What would You like to do?</h2>
-		<ul>
-			<li><a href=<c:url value="/user/edit"></c:url>> Edit Your
-					data.</a></li>
-			<li><a href=<c:url value="/user/changePassword"></c:url>> Change Your password. </a></li>
-		</ul>
 	</div>
 	
-	<c:if test="${not empty myProjects}">
-	
-	<h2>Projects You are involved in:</h2>
-	<c:forEach items="${myProjects}" var="mypro">
-	<div>
-	Project name: ${mypro.name}
-	Website: ${mypro.websiteUrl}
-	Creation date: ${mypro.niceDate}
-	
-	</div>
-	</c:forEach>
-	<a href=<c:url value="/user/myProjects"></c:url>> See all projects with details </a>
-	</c:if>
-	
-	<c:if test="${empty myProjects}">
-	<h2>You are currently not involved in any project</h2>
-	</c:if>
 	
 	<c:if test="${not empty myTasks}">
 	<h2>List of Your tasks:</h2>
@@ -53,6 +30,7 @@ ${message}</c:if>
 	Creation date: ${task.niceDate}
 	Status: ${task.status.name} <a href=<c:url value="/task/changeStatus/${task.id}"></c:url>> Change status </a>
 	Priority: ${task.priority.name} 
+	<a href=<c:url value="/task/edit/${task.id}"></c:url>> Edit this task </a>
 	<a href=<c:url value="/task/details/${task.id}"></c:url>> See task details </a>
 	</div>
 	</c:forEach>

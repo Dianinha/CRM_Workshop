@@ -1,6 +1,7 @@
 package pl.coderslab.controllers;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.coderslab.entities.Activity;
 import pl.coderslab.entities.Project;
+import pl.coderslab.entities.Task;
 import pl.coderslab.entities.User;
 import pl.coderslab.repositories.ActivityRepository;
+import pl.coderslab.repositories.PriorityRepository;
 import pl.coderslab.repositories.ProjectRepository;
+import pl.coderslab.repositories.StatusRepository;
+import pl.coderslab.repositories.TaskRepository;
 import pl.coderslab.repositories.UserRepository;
 
 @Controller
@@ -26,31 +31,40 @@ import pl.coderslab.repositories.UserRepository;
 public class ProjectController {
 
 	@Autowired
-	private ProjectRepository projectRepo;
+	private TaskRepository taskRepo;
 	
+	@Autowired
+	private ProjectRepository projectRepo;
+
 	@Autowired
 	private ActivityRepository activityRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
+	@Autowired
+	private PriorityRepository priorityRepo;
+
+	@Autowired
+	private StatusRepository statusRepo;
+
 	@GetMapping(path = "")
-	public String mainProject(Model model, @RequestParam(name="par", required=false) String msg) {
+	public String mainProject(Model model, @RequestParam(name = "par", required = false) String msg) {
 		model.addAttribute("projects", projectRepo.findAllByActive(true));
-		if (msg!=null) {
+		if (msg != null) {
 			if (msg.equals("succ")) {
 				model.addAttribute("message", "You have successfully edited a project!");
-			} 
-			if (msg.equals("del")){
+			}
+			if (msg.equals("del")) {
 				model.addAttribute("message", "You have successfully deleted a project!");
 			}
-			if (msg.equals("adds")){
-				model.addAttribute("message","You have successfully created a new project!");
+			if (msg.equals("adds")) {
+				model.addAttribute("message", "You have successfully created a new project!");
 			}
 		}
 		return "project/main";
 	}
-	
+
 	@GetMapping(path = "/add")
 	public String addNewProject(Model model) {
 		model.addAttribute("project", new Project());
@@ -64,7 +78,7 @@ public class ProjectController {
 		project.setCreated(LocalDateTime.now());
 		project.setIdentifier();
 		projectRepo.save(project);
-		
+
 		try {
 			User user = userRepo.findOne((Long) session.getAttribute("loggedUser"));
 			Activity activity = new Activity();
@@ -73,15 +87,14 @@ public class ProjectController {
 			String msg = activity.getInformation(project);
 			activity.setContent(msg);
 			activityRepo.save(activity);
-			
+
 		} catch (Exception e) {
 			System.out.println("No logged user ERRO ERROR ERROR");
 		}
-		
-		
+
 		return "redirect:/project";
 	}
-	
+
 	@GetMapping(path = "/delete/{id}")
 	public String deleteProject(Model model, @PathVariable("id") long id) {
 		model.addAttribute("par", "del");
@@ -90,6 +103,7 @@ public class ProjectController {
 		projectRepo.save(project);
 		return "redirect:/project";
 	}
+
 	@GetMapping(path = "/edit/{id}")
 	public String editProject(Model model, @PathVariable("id") long id) {
 		model.addAttribute("myProject", projectRepo.findOne(id));
@@ -103,5 +117,42 @@ public class ProjectController {
 		myProject.setIdentifier();
 		projectRepo.save(myProject);
 		return "redirect:/project";
+	}
+
+	@GetMapping(path = "/addTask/{id}")
+	public String addTaskToProject(Model model, @PathVariable("id") long id) {
+		model.addAttribute("myProject", projectRepo.findOne(id));
+		model.addAttribute("task", new Task());
+		model.addAttribute("projects", projectRepo.findAll());
+		model.addAttribute("users", userRepo.findAll());
+		model.addAttribute("statuses", statusRepo.findAll());
+		model.addAttribute("priorities", priorityRepo.findAll());
+		return "project/addTask";
+	}
+
+	@PostMapping(path = "/addTask/{id}")
+	public String addTaskToProjectPost(@ModelAttribute Task task, Model model, HttpSession session, @PathVariable("id") long id) {
+		Project project = projectRepo.findOne(id);
+		task.setProject(project);
+		task.setCreated(LocalDateTime.now());
+		taskRepo.save(task);
+		
+		List<User> projectUsers = project.getUsers();
+		projectUsers.add(task.getActiveUser());
+		projectRepo.save(project);
+		
+		try {
+			User user = userRepo.findOne((Long) session.getAttribute("loggedUser"));
+			Activity activity = new Activity();
+			activity.setCreated(LocalDateTime.now());
+			activity.setUser(user);
+			String msg = activity.getInformation(project, task);
+			activity.setContent(msg);
+			activityRepo.save(activity);
+			
+		} catch (Exception e) {
+			System.out.println("No logged user ERRO ERROR ERROR");
+		}
+		return "redirect:/user";
 	}
 }
