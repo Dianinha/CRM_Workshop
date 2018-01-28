@@ -2,6 +2,7 @@ package pl.coderslab.controllers;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -83,7 +84,7 @@ public class TaskController {
 		task.setCreated(LocalDateTime.now());
 		taskRepo.save(task);
 		Project project = projectRepo.findOne(task.getProject().getId());
-		List<User> projectUsers = project.getUsers();
+		Set<User> projectUsers = project.getUsers();
 		projectUsers.add(task.getActiveUser());
 		projectRepo.save(project);
 		
@@ -125,7 +126,7 @@ public class TaskController {
 		model.addAttribute("par", "succ");
 		taskRepo.save(myTask);
 		Project project = projectRepo.findOne(myTask.getProject().getId());
-		List<User> projectUsers = project.getUsers();
+		Set<User> projectUsers = project.getUsers();
 		projectUsers.add(myTask.getActiveUser());
 		projectRepo.save(project);
 		return "redirect:/task";

@@ -2,6 +2,7 @@ package pl.coderslab.controllers;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -92,7 +93,7 @@ public class ProjectController {
 			System.out.println("No logged user ERRO ERROR ERROR");
 		}
 
-		return "redirect:/project";
+		return "redirect:/user/myProjects";
 	}
 
 	@GetMapping(path = "/delete/{id}")
@@ -111,12 +112,13 @@ public class ProjectController {
 	}
 
 	@PostMapping(path = "/edit/{id}")
-	public String editProjectPost(@ModelAttribute Project myProject, Model model) {
+	public String editProjectPost(@ModelAttribute Project myProject, Model model , @PathVariable("id") long id) {
 		model.addAttribute("par", "succ");
-		myProject.setActive(true);
-		myProject.setIdentifier();
-		projectRepo.save(myProject);
-		return "redirect:/project";
+		Project project = projectRepo.findOne(id);
+		project.mergeFromEdit(myProject);
+		project.setIdentifier();
+		projectRepo.save(project);
+		return "redirect:/user/myProjects";
 	}
 
 	@GetMapping(path = "/addTask/{id}")
@@ -136,8 +138,7 @@ public class ProjectController {
 		task.setProject(project);
 		task.setCreated(LocalDateTime.now());
 		taskRepo.save(task);
-		
-		List<User> projectUsers = project.getUsers();
+		Set<User> projectUsers = project.getUsers();
 		projectUsers.add(task.getActiveUser());
 		projectRepo.save(project);
 		

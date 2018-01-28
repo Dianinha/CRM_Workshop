@@ -56,10 +56,12 @@ ${message}</c:if>
 	<a href=<c:url value="/task/details/${task.id}"></c:url>> See task details </a>
 	</div>
 	</c:forEach>
+	<a href=<c:url value="/user/myTasks"></c:url>> See all Your tasks with details </a>
 	</c:if>
 	<c:if test="${empty myTasks}">
 	<h2>You have nothing to do. No tasks. Go home.</h2>
 	</c:if>
+	
 	<%@ include file="../fragments/relBody.jsp" %>
 </body>
 </html>

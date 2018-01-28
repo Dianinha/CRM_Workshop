@@ -32,7 +32,18 @@ public class UserController {
 
 
 	@GetMapping(path = "")
-	public String userMainPage(Model model, HttpSession session) {
+	public String userMainPage(Model model, HttpSession session, @RequestParam(name = "par", required = false) String msg) {
+		if (msg != null) {
+			if (msg.equals("succPass")) {
+				model.addAttribute("message", "You have successfully changed Your password");
+			}
+			if (msg.equals("editSucc")) {
+				model.addAttribute("message", "You have successfully edited user's data!");
+			}
+//			if (msg.equals("adds")) {
+//				model.addAttribute("message", "You have successfully created a new project!");
+//			}
+		}
 		long loggedUserId = (long) session.getAttribute("loggedUser");
 		User loggedUser = userRepo.findOne(loggedUserId);
 		model.addAttribute("currentUser", loggedUser);
@@ -73,16 +84,24 @@ public class UserController {
 
 	@PostMapping(path = "/edit")
 	public String editUserPost(@ModelAttribute User user, Model model, HttpSession session) {
-		model.addAttribute("message", "You have successfully edited user's data!");
+		model.addAttribute("par", "editSucc");
 		long loggedUserId = (long) session.getAttribute("loggedUser");
 		User merged = userRepo.findOne(loggedUserId);
 		merged.mergeFromEdit(user);
 		userRepo.save(merged);
-		return "user/main";
+		return "redirect:/user";
 	}
 
-	@GetMapping(path = "/changePassword")
-	public String changePassword() {
+	@GetMapping(path = "/changePassword" )
+	public String changePassword(Model model, @RequestParam(name = "par", required = false) String msg) {
+		if (msg != null) {
+			if (msg.equals("wrng")) {
+				model.addAttribute("message", "Wrong password");
+			}
+			if (msg.equals("dnm")) {
+				model.addAttribute("message", "New password does not match");
+			}
+		}
 		return "user/changePassword";
 	}
 
@@ -94,18 +113,18 @@ public class UserController {
 		long loggedUserId = (long) session.getAttribute("loggedUser");
 		User activeUser = userRepo.findOne(loggedUserId);
 		if (!BCrypt.checkpw(pass, activeUser.getPassword())) {
-			model.addAttribute("message", "Wrong password.");
-			return "user/changePassword";
+			model.addAttribute("par", "wrng");
+			return "redirect:/user/changePassword";
 		}
 
 		if (!newPass.equals(newPass2)) {
-			model.addAttribute("message", "New password does not match");
-			return "user/changePassword";
+			model.addAttribute("par", "dnm");
+			return "redirect:/user/changePassword";
 		}
 		activeUser.setPassword(newPass);
 		userRepo.save(activeUser);
-		model.addAttribute("message", "You have successfully changed Your password");
-		return "user/main";
+		model.addAttribute("par", "succPass");
+		return "redirect:/user";
 	}
 
 }

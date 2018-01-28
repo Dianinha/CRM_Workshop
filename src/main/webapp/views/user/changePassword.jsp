@@ -11,24 +11,57 @@
 </head>
 <body>
 <%@ include file="../fragments/userMenu.jsp" %>
-<div>
-		<c:if test="${not empty message}">
-${message}</c:if>
+
+<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			
+			<div class="col-10">
+			
+			<c:if test="${not empty message}">
+			<div class="alert alert-danger">
+				${message}</div></c:if>
+
+		<div class="row">
+				<div class="col">
+					<h1>Change Your password:</h1>
+				</div>
+		</div>
+		
+		<form method="post" action="/CRM/user/changePassword">
+	<div class="container confade mt-4 mb-5">
+			<div class="row">
+				<div class="col form-group mt-4">
+	<label for="Old password:">Old password:</label>
+	<input type="password" name="oldPassword" class="form-control" >
+				</div>
+			</div>
+	<div class="row">
+	<div class="col form-group">
+	<label for="newPassword">New Password:</label>
+<input type="password" name="newPassword" class="form-control" >
+				</div>
+			</div>
+			<div class="row">
+			<div class="col form-group">
+	<label for="Repeat new password:">Repeat new password:</label>
+	<input type="password" name="newPassword2" class="form-control" >
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="col mb-4">
+					<input type="submit" value="Change password" class="btn btncol"/>
+				</div>
+			</div>
+		</div>
+		</form>
 	</div>
-	<h1>Change Your password</h1>
-	<form method="post" action="/CRM/user/changePassword"> Old password:
-	<br>
-	<input type="password" name="oldPassword">
-	<br> New password:
-	<br>
-	<input type="password" name="newPassword">
-	
-	<br> Repeat new password:
-	<br>
-	<input type="password" name="newPassword2">
-	<br> 
-	<input type="submit" value="Change password">
-	</form>
-	<%@ include file="../fragments/relBody.jsp" %>
+	<div class="col-10"></div>
+		</div>
+	</div>
+
+	<%@ include file="../fragments/footer.jsp"%>
+	<%@ include file="../fragments/relBody.jsp"%>
 </body>
 </html>

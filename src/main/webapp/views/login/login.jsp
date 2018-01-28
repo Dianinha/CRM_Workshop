@@ -11,23 +11,55 @@
 </head>
 <body>
 <%@ include file="../fragments/menu.jsp" %>
-	<div>
+
+<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			
+			<div class="col-10">
+
+				<div class="container">
+					<div class="row">
+						<div class="col">
 		<c:if test="${not empty message}">
 ${message}</c:if>
+						</div>
+					</div>
+		<div class="row">
+				<div class="col">
+	<h1>Please put Your username and password:</h1>
+				</div>
+		</div>
 	</div>
-	Please put Your username and password:
-	<form method="post">
-	Username:
-	<input type="text" name="username"> 
-	<br>
-	Password
-	<input type="password" name="password">
-	<br>
-			<div>
-				<input type="submit" value="Log in" />
+		
+		<form method="post">
+	<div class="container confade mt-4 mb-5">
+			<div class="row">
+				<div class="col form-group mt-4">
+	<label for="Username:">Username</label>
+	<input type="text" name="username" class="form-control">
+				</div>
 			</div>
-		</form>
 	
-	<%@ include file="../fragments/relBody.jsp" %>
+		<div class="row">
+				<div class="col form-group">
+				<label for="Password:">Password</label>
+	<input type="password" name="password" class="form-control">
+				</div>
+		</div>
+			<div class="row">
+				<div class="col mb-4">
+					<input type="submit" value="Log in" class="btn btncol"/>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="col-10"></div>
+		</div>
+	</div>
+
+	<%@ include file="../fragments/footer.jsp"%>
+	<%@ include file="../fragments/relBody.jsp"%>
 </body>
 </html>

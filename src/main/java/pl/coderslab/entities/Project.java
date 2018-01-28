@@ -3,6 +3,7 @@ package pl.coderslab.entities;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +44,7 @@ public class Project {
 	private boolean isActive;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<User> users;
+	private Set<User> users;
 
 	@OneToMany(mappedBy = "project")
 	private List<Task> tasks;
@@ -134,11 +135,11 @@ public class Project {
 		this.isActive = isActive;
 	}
 
-	public List<User> getUsers() {
+	public Set<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<User> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 
@@ -148,6 +149,12 @@ public class Project {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+	
+	public void mergeFromEdit(Project project) {
+		this.setDescription(project.getDescription());
+		this.setName(project.getName());
+		this.setWebsiteUrl(project.getWebsiteUrl());
 	}
 
 

@@ -34,7 +34,7 @@ public class AuthorisationFilter implements Filter {
 		}
 		else {System.out.println("odmowa dostepu");
 		HttpServletResponse resp = (HttpServletResponse) response;
-		resp.sendRedirect("http://localhost:3636/CRM/accessDenied");
+		resp.sendRedirect("/CRM/accessDenied");
 		}
 		
 	}

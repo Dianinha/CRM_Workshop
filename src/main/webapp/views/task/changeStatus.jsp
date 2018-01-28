@@ -10,7 +10,7 @@
 <%@ include file="../fragments/relHead.jsp"%>
 </head>
 <body>
-	<%@ include file="../fragments/menu.jsp"%>
+	<%@ include file="../fragments/userMenu.jsp"%>
 	<h1>Change status</h1>
 	<br>
 	<div>

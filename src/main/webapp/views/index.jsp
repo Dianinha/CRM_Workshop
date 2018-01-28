@@ -39,11 +39,21 @@
 		<c:if test="${not empty message}">
 ${message}</c:if>
 	</div>
-	<br>
+<c:if test="${not empty projects}">
+		List of recent projects:
+		<br>
+		<c:forEach items="${projects}" var="proj">
+			${proj.name} created: ${proj.niceDate}
+			<br>
+		</c:forEach>
+	</c:if>
+
+
+
 	<c:if test="${not empty activities}">
 		List of recent activities:
 		<br>
-		<c:forEach items="${activities}" var="act">
+		<c:forEach items="${activities}" var="act" begin="0" end="25">
 			<c:out value="${act.content}"></c:out>
 			<br>
 		</c:forEach>

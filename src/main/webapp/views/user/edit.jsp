@@ -11,24 +11,53 @@
 </head>
 <body>
 <%@ include file="../fragments/userMenu.jsp" %>
-<h1>Edit user:</h1>
-<form:form method="post" modelAttribute="user">
-		<div>
-			Login:
-			<form:input path="login" value="${user.login}" />
+
+<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			
+			<div class="col-10">
+
+		<div class="row">
+				<div class="col">
+					<h1>Edit user:</h1>
+				</div>
 		</div>
-		<div>
-			Name:
-			<form:input path="name" value="${user.name}"/>
+		
+		<form:form method="post" modelAttribute="user">
+	<div class="container confade mt-4 mb-5">
+			<div class="row">
+				<div class="col form-group mt-4">
+	<label for="Login:">Login:</label>
+	<form:input path="login" value="${user.login}" class="form-control" />
+				</div>
+			</div>
+	<div class="row">
+	<div class="col form-group">
+	<label for="Name">Name:</label>
+<form:input path="name" value="${user.name}" class="form-control" />
+				</div>
+			</div>
+			<div class="row">
+			<div class="col form-group">
+	<label for="Surname:">Surname:</label>
+	<form:input path="surname" value="${user.surname}" class="form-control" />
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="col mb-4">
+					<input type="submit" value="Save changes" class="btn btncol"/>
+				</div>
+			</div>
 		</div>
-		<div>
-			Surname:
-			<form:input path="surname" value="${user.surname}"/>
+		</form:form>
+	</div>
+	<div class="col-10"></div>
 		</div>
-		<div>
-			<input type="submit" value="Save changes" />
-		</div>
-	</form:form>
-	<%@ include file="../fragments/relBody.jsp" %>
+	</div>
+
+	<%@ include file="../fragments/footer.jsp"%>
+	<%@ include file="../fragments/relBody.jsp"%>
 </body>
 </html>

@@ -10,7 +10,7 @@
 <%@ include file="../fragments/relHead.jsp" %>
 </head>
 <body>
-<%@ include file="../fragments/menu.jsp" %>
+<%@ include file="../fragments/userMenu.jsp" %>
 
 <h1>This is information page about task: ${task.subject}</h1>
 

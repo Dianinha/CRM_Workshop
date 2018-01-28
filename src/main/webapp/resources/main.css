@@ -44,7 +44,7 @@ a:hover {
 	border-style: solid;
     border-width: 1px;
     border-color: #ced4da;
-    border-radius: 20px;
+    border-radius: .25rem;
     background: #F7F4EA;
 }
 

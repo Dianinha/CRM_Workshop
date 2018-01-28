@@ -28,18 +28,19 @@ public class HomeController {
 
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private UserRoleRepository userRoleRepo;
 
 	@GetMapping(path = "/")
 	public String homepage(Model model) {
 		model.addAttribute("activities", activityRepo.findAll());
-		model.addAttribute("projects", projectRepo.findAll());
+		//model.addAttribute("projects", projectRepo.findAll());
+		model.addAttribute("projects", projectRepo.findTop5ByOrderByCreatedDesc());
 
 		return "index";
 	}
-	
+
 	@GetMapping(path = "/logout")
 	public String logout(Model model, HttpSession session) {
 		model.addAttribute("activities", activityRepo.findAll());
@@ -47,7 +48,7 @@ public class HomeController {
 		User userLoggingOut = userRepo.findOne((Long) session.getAttribute("loggedUser"));
 		model.addAttribute("message", "Goodbye " + userLoggingOut.getName() + " " + userLoggingOut.getSurname() + "!");
 		session.setAttribute("loggedUser", null);
-		if(session.getAttribute("isAdmin")!=null&&session.getAttribute("isAdmin").equals("yes")) {
+		if (session.getAttribute("isAdmin") != null && session.getAttribute("isAdmin").equals("yes")) {
 			session.setAttribute("isAdmin", null);
 		}
 		return "index";
@@ -66,7 +67,7 @@ public class HomeController {
 
 		return "/login/login";
 	}
-	
+
 	@GetMapping(path = "/accessDenied")
 	public String accessDenied(Model model) {
 
@@ -77,22 +78,29 @@ public class HomeController {
 	public String loginPost(Model model, @RequestParam("username") String username,
 			@RequestParam("password") String password, HttpSession session) {
 		User user = userRepo.findByLogin(username);
-		if (BCrypt.checkpw(password, user.getPassword())) {
-			model.addAttribute("message", "You have successfully logged in.");
-			session.setAttribute("loggedUser", user.getId());
-			return "index";
-		} else
-		{model.addAttribute("message", "Login attempt failed");
-			return  "/login/login";}
+		if (user!=null) {
+			
+			if (BCrypt.checkpw(password, user.getPassword())) {
+				model.addAttribute("message", "You have successfully logged in.");
+				session.setAttribute("loggedUser", user.getId());
+				return "redirect:/";
+			} else {
+				model.addAttribute("message", "Login attempt failed");
+				return "/login/login";
+			}
+		} else {
+			model.addAttribute("message", "Login attempt failed");
+			return "/login/login";
+		}
+
 	}
-	
+
 	@GetMapping(path = "/register")
 	public String register(Model model) {
 
 		model.addAttribute("user", new User());
 		return "user/add";
 	}
-	
 
 	@PostMapping(path = "/register")
 	public String registerPost(@ModelAttribute User user, Model model, HttpSession session) {
