@@ -15,7 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan(basePackages = { "pl.coderslab.entities, pl.coderslab.controllers, pl.coderslab.repositories", "pl.coderslab.services" })
+@ComponentScan(basePackages = { "pl.coderslab.entities, pl.coderslab.controllers, pl.coderslab.repositories",
+		"pl.coderslab.services", "pl.coderslab.filters" })
 @EnableTransactionManagement
 @EnableWebMvc
 @EnableJpaRepositories(basePackages = { "pl.coderslab.repositories" })

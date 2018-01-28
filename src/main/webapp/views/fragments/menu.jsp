@@ -14,7 +14,7 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">O nas<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<c:url value="/"></c:url>>">Homepage<span class="sr-only">(current)</span></a>
       </li>
       <!-- <li class="nav-item">
         <a class="nav-link" href="#">Złóż zamówienie</a>
