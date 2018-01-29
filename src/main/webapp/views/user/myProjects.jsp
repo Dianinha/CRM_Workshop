@@ -11,37 +11,72 @@
 </head>
 <body>
 <%@ include file="../fragments/userMenu.jsp" %>
-	<div>
-		<c:if test="${not empty message}">
-${message}</c:if>
-	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			
+			<div class="col-10">
+		<c:if test="${not empty message}"><div class="alert alert-warning">
+${message}</div></c:if>
 
-	<div>
+	<div class="row">
+				<div class="col">
 		<h1>Hello ${currentUser.name} ${currentUser.surname}</h1>
 		<h2>Here is detailed list of projects You are involved in:</h2>
 	</div>
-	<a href=<c:url value="/project/add"></c:url>> Add new project </a>
-	<c:if test="${not empty myProjects}">
-	
-	<h2>Projects You are involved in:</h2>
-	<c:forEach items="${myProjects}" var="mypro">
-	<div>
-	Project name: ${mypro.name}
-	Project identifier: ${mypro.identifier}
-	Website: ${mypro.websiteUrl}
-	Creation date: ${mypro.niceDate}
-	Description: ${mypro.niceDate}
-	
-	<a href=<c:url value="/project/edit/${mypro.id}"></c:url>> Edit project </a>
-	<a href=<c:url value="/project/addTask/${mypro.id}"></c:url>> Add task to the project </a>
 	</div>
+	<div class="row">
+				<div class="col">
+				<div class="list-group">
+	<a class="list-group-item list-group-item-action" href=<c:url value="/project/add"></c:url>> Add new project </a>
+	</div>
+	</div>
+	</div>
+	<c:if test="${not empty myProjects}">
+	<div class="container confade mt-4 py-4 mb-5">
+		<div class="row">
+				<div class="col">
+	<h2>Projects You are involved in:</h2>
+	<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Project name:</th>
+      <th>Project identifier:</th>
+      <th>Website:</th>
+      <th>Creation date:</th>
+      <th>Description</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+ 		 <tbody>
+ <c:forEach items="${myProjects}" var="mypro">
+	<tr>
+	<td>${mypro.name}</td>
+	<td>${mypro.identifier}</td>
+	<td>${mypro.websiteUrl}</td>
+	<td>${mypro.niceDate}</td>
+	<td>${mypro.description}</td>
+	<td><a href=<c:url value="/project/edit/${mypro.id}"></c:url>> Edit project </a></td>
+	<td><a href=<c:url value="/project/addTask/${mypro.id}"></c:url>> Add task to the project </a></td>
+	</tr>
 	</c:forEach>
+	</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
 	</c:if>
 	
 	<c:if test="${empty myProjects}">
 	<h2>You are currently not involved in any project</h2>
 	</c:if>
-	
-	<%@ include file="../fragments/relBody.jsp" %>
+	</div>
+	<div class="col-1"></div>
+		</div>
+	</div>
+
+	<%@ include file="../fragments/footer.jsp"%>
+	<%@ include file="../fragments/relBody.jsp"%>
 </body>
 </html>

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import pl.coderslab.entities.Task;
-import pl.coderslab.entities.User;
 
 @Component
 public interface TaskRepository extends JpaRepository<Task, Long>{

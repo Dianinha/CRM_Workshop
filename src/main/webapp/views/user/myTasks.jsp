@@ -11,33 +11,72 @@
 </head>
 <body>
 <%@ include file="../fragments/userMenu.jsp" %>
-	<div>
-		<c:if test="${not empty message}">
-${message}</c:if>
-	</div>
+<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			
+			<div class="col-10">
+	<c:if test="${not empty message}"><div class="alert alert-warning">
+${message}</div></c:if>
 
-	<div>
+	<div class="row">
+				<div class="col">
 		<h1>Hello ${currentUser.name} ${currentUser.surname}</h1>
 	</div>
-	<a href=<c:url value="/task/add"></c:url>> Add new task </a>
+	</div>
+	
+	<div class="row">
+				<div class="col">
+				<div class="list-group">
+	<a class="list-group-item list-group-item-action" href=<c:url value="/task/add"></c:url>> Add new tasks </a>
+	</div>
+	</div>
+	</div>
+	
 	
 	<c:if test="${not empty myTasks}">
+	<div class="container confade mt-4 py-4 mb-5">
+		<div class="row">
+				<div class="col">
 	<h2>List of Your tasks:</h2>
+	<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Task:</th>
+      <th>Project:</th>
+      <th>Creation date:</th>
+      <th>Status:</th>
+      <th></th>
+      <th>Priority:</th>
+      <th></th>
+      <th></th>
+       </tr>
+  </thead>
+ 		 <tbody>
 	<c:forEach items="${myTasks}" var="task">
-	<div>
-	Task: ${task.subject}
-	Project: ${task.project.name}
-	Creation date: ${task.niceDate}
-	Status: ${task.status.name} <a href=<c:url value="/task/changeStatus/${task.id}"></c:url>> Change status </a>
-	Priority: ${task.priority.name} 
-	<a href=<c:url value="/task/edit/${task.id}"></c:url>> Edit this task </a>
-	<a href=<c:url value="/task/details/${task.id}"></c:url>> See task details </a>
-	</div>
+	<tr>
+	<td>${task.subject}</td>
+	<td>${task.project.name}</td>
+	<td>${task.niceDate}</td>
+	<td>${task.status.name} </td>
+	<td><a href=<c:url value="/task/changeStatus/${task.id}"></c:url>> Change status </a></td>
+	<td>${task.priority.name}</td> 
+	<td><a href=<c:url value="/task/edit/${task.id}"></c:url>> Edit this task </a></td>
+	<td><a href=<c:url value="/task/details/${task.id}"></c:url>> See task details </a></td>
+	</tr>
 	</c:forEach>
+	</tbody>
+		</table>
+	</div>
+	</div>
+	</div>
 	</c:if>
-	<c:if test="${empty myTasks}">
-	<h2>You have nothing to do. No tasks. Go home.</h2>
-	</c:if>
-	<%@ include file="../fragments/relBody.jsp" %>
+		</div>
+	<div class="col-1"></div>
+		</div>
+	</div>
+
+	<%@ include file="../fragments/footer.jsp"%>
+	<%@ include file="../fragments/relBody.jsp"%>
 </body>
 </html>

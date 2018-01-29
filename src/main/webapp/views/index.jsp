@@ -17,8 +17,22 @@
 <c:if test="${empty loggedUser}">
 <%@ include file="fragments/menu.jsp"%>
 </c:if>
+
+<div class="container">
+		<div class="row">
+			<div class="col-1"></div>
+			
+			<div class="col-10">
+
+		<div class="row">
+				<div class="col">
 	
 	<h1>Welcome to Dianinha's CRM</h1>
+				</div>
+		</div>
+		
+		<div class="row">
+				<div class="col">
 
 	<p>Being, look within and synergize yourself. Humankind has nothing
 		to lose. We are at a crossroads of intuition and stagnation. We are in
@@ -34,32 +48,47 @@
 		nothing short of an invocation quantum shift of spatial divinity. We
 		exist as sub-atomic particles. To traverse the myth is to become one
 		with it.</p>
+			</div>
+		</div>
 
-	<div>
-		<c:if test="${not empty message}">
-${message}</c:if>
-	</div>
+
+	
+		<c:if test="${not empty message}"><div class="alert alert-info">
+${message}</div></c:if>
+	
 <c:if test="${not empty projects}">
-		List of recent projects:
-		<br>
+<div class="container confade mt-4 py-4">
+		<div class="row">
+				<div class="col">
+		<h2>List of recent projects:</h2>
+		<ul class="list-group">
 		<c:forEach items="${projects}" var="proj">
-			${proj.name} created: ${proj.niceDate}
-			<br>
+			<li class="list-group-item">${proj.name} created: ${proj.niceDate}</li>
 		</c:forEach>
+		</ul>
+		</div></div></div>
 	</c:if>
 
 
 
 	<c:if test="${not empty activities}">
-		List of recent activities:
-		<br>
+	<div class="container confade mt-4 mb-5 py-4">
+		<div class="row">
+				<div class="col">
+		<h2>List of recent activities:</h2>
+		<ul class="list-group">
 		<c:forEach items="${activities}" var="act" begin="0" end="25">
-			<c:out value="${act.content}"></c:out>
-			<br>
+			<li class="list-group-item"><c:out value="${act.content}"></c:out></li>
 		</c:forEach>
+		</ul>
+		</div></div></div>
 	</c:if>
+</div>
+	<div class="col-1"></div>
+		</div>
+	</div>
 
-
+	<%@ include file="fragments/footer.jsp"%>
 	<%@ include file="fragments/relBody.jsp"%>
 </body>
 </html>
