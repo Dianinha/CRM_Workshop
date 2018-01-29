@@ -19,7 +19,7 @@ ${message}</c:if>
 	<div>
 		<h1>Hello ${currentUser.name} ${currentUser.surname}</h1>
 	</div>
-	
+	<a href=<c:url value="/task/add"></c:url>> Add new task </a>
 	
 	<c:if test="${not empty myTasks}">
 	<h2>List of Your tasks:</h2>

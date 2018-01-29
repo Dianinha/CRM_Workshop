@@ -30,31 +30,37 @@
 						</div>
 					</div>
 				</div>
-
+				<c:if test="${not empty message}">
+					<div class="alert alert-danger">${message}</div>
+				</c:if>
 				<div class="container confade mt-4 mb-5">
-					<form:form action="add" method="post" modelAttribute="user">
+					<form:form action="register" method="post" modelAttribute="user">
 						<div class="row">
 							<div class="col form-group mt-4">
 								<label for="Login:">Insert Login</label>
 								<form:input path="login" class="form-control" />
+								<form:errors path="login" class="error" />
 							</div>
 						</div>
 						<div class="row">
 							<div class="col form-group">
 								<label for="Password:">Insert Password</label>
 								<form:password path="password" class="form-control" />
+								<form:errors path="password" class="error" />
 							</div>
 						</div>
 						<div class="row">
 							<div class="col form-group">
 								<label for="Name:">Insert Name</label>
 								<form:input path="name" class="form-control" />
+								<form:errors path="name" class="error"/>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col form-group">
 								<label for="Surname:">Insert Surname</label>
 								<form:input path="surname" class="form-control" />
+								<form:errors path="surname" class="error"/>
 							</div>
 						</div>
 						<div class="row">

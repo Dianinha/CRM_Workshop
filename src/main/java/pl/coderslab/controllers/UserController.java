@@ -1,6 +1,7 @@
 package pl.coderslab.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,7 +48,7 @@ public class UserController {
 		long loggedUserId = (long) session.getAttribute("loggedUser");
 		User loggedUser = userRepo.findOne(loggedUserId);
 		model.addAttribute("currentUser", loggedUser);
-		List<Project> userProjects = loggedUser.getProjects();
+		Set<Project> userProjects = loggedUser.getProjects();
 		model.addAttribute("myProjects", userProjects);
 		List<Task> userTasks = taskRepo.findByActiveUserId(loggedUserId);
 		model.addAttribute("myTasks", userTasks);
@@ -59,7 +60,7 @@ public class UserController {
 		long loggedUserId = (long) session.getAttribute("loggedUser");
 		User loggedUser = userRepo.findOne(loggedUserId);
 		model.addAttribute("currentUser", loggedUser);
-		List<Project> userProjects = loggedUser.getProjects();
+		Set<Project> userProjects = loggedUser.getProjects();
 		model.addAttribute("myProjects", userProjects);
 		return "user/myProjects";
 	}

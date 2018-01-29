@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.URL;
@@ -31,12 +32,14 @@ public class Project {
 	@Column(updatable=false)
 	private LocalDateTime created;
 
+	@Size(min=3)
 	private String name;
 
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
 	@URL
+	@Size(min=10)
 	private String websiteUrl;
 
 	private String identifier;
@@ -158,6 +161,7 @@ public class Project {
 	}
 
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -168,8 +172,8 @@ public class Project {
 		result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
 		result = prime * result + (isActive ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((niceDate == null) ? 0 : niceDate.hashCode());
 		result = prime * result + ((tasks == null) ? 0 : tasks.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		result = prime * result + ((websiteUrl == null) ? 0 : websiteUrl.hashCode());
 		return result;
 	}
@@ -207,15 +211,15 @@ public class Project {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (niceDate == null) {
+			if (other.niceDate != null)
+				return false;
+		} else if (!niceDate.equals(other.niceDate))
+			return false;
 		if (tasks == null) {
 			if (other.tasks != null)
 				return false;
 		} else if (!tasks.equals(other.tasks))
-			return false;
-		if (users == null) {
-			if (other.users != null)
-				return false;
-		} else if (!users.equals(other.users))
 			return false;
 		if (websiteUrl == null) {
 			if (other.websiteUrl != null)

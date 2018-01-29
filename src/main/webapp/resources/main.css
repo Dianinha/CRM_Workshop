@@ -57,6 +57,10 @@ a:hover {
     font-weight: bold;
 }
 
+.error {
+	color: RED;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

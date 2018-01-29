@@ -85,8 +85,12 @@ public class TaskController {
 		taskRepo.save(task);
 		Project project = projectRepo.findOne(task.getProject().getId());
 		Set<User> projectUsers = project.getUsers();
-		projectUsers.add(task.getActiveUser());
+		User userOfProject = userRepo.findOne(task.getActiveUser().getId());
+		projectUsers.add(userOfProject);
 		projectRepo.save(project);
+		Set<Project> userProj = userOfProject.getProjects();
+		userProj.add(project);
+		userRepo.save(userOfProject);
 		
 		try {
 			User user = userRepo.findOne((Long) session.getAttribute("loggedUser"));
@@ -101,7 +105,7 @@ public class TaskController {
 			System.out.println("No logged user ERRO ERROR ERROR");
 		}
 		
-		return "redirect:/task";
+		return "redirect:/user/myTasks";
 	}
 	
 	@GetMapping(path = "/details/{id}")
@@ -129,7 +133,7 @@ public class TaskController {
 		Set<User> projectUsers = project.getUsers();
 		projectUsers.add(myTask.getActiveUser());
 		projectRepo.save(project);
-		return "redirect:/task";
+		return "redirect:/user/myTasks";
 	}
 	
 	@GetMapping(path = "/changeStatus/{id}")
@@ -158,6 +162,6 @@ public class TaskController {
 			System.out.println("No logged user ERRO ERROR ERROR");
 		}
 		
-		return "redirect:/task";
+		return "redirect:/user/myTasks";
 	}
 }

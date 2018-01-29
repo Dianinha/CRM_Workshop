@@ -31,6 +31,7 @@ ${message}</c:if>
 	Website: ${mypro.websiteUrl}
 	Creation date: ${mypro.niceDate}
 	Description: ${mypro.niceDate}
+	
 	<a href=<c:url value="/project/edit/${mypro.id}"></c:url>> Edit project </a>
 	<a href=<c:url value="/project/addTask/${mypro.id}"></c:url>> Add task to the project </a>
 	</div>

@@ -1,6 +1,7 @@
 package pl.coderslab.controllers;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -78,10 +79,16 @@ public class ProjectController {
 		project.setActive(true);
 		project.setCreated(LocalDateTime.now());
 		project.setIdentifier();
+		Set <User> projectUser = new HashSet<>();
+		User user = userRepo.findOne((Long) session.getAttribute("loggedUser"));
+		projectUser.add(user);
+		project.setUsers(projectUser);
+		Set<Project> projectsOfUser = user.getProjects();
+		projectsOfUser.add(project);
+		userRepo.save(user);
 		projectRepo.save(project);
 
 		try {
-			User user = userRepo.findOne((Long) session.getAttribute("loggedUser"));
 			Activity activity = new Activity();
 			activity.setCreated(LocalDateTime.now());
 			activity.setUser(user);

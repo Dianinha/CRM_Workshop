@@ -1,6 +1,7 @@
 package pl.coderslab.entities;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +14,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
@@ -26,13 +30,24 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
+	@NotNull
+	@Size(min=3, message="Login should be at least 3 characters long")
 	private String login;
 
+	@NotNull
+	@Column(nullable = false)
+	@Size(min=3, message="Name should be at least 3 characters long")
 	private String name;
 
+	@NotNull
+	@Column(nullable = false)
+	@Size(min=3, message="Surname should be at least 3 characters long")
 	private String surname;
 
+	@NotNull
+	@Column(nullable = false)
+	@Size(min=50,  message="Password cannot be empty")
 	private String password;
 	
 	@ManyToOne
@@ -45,13 +60,12 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Activity> activities;
 
-	@ManyToMany(mappedBy = "users", fetch=FetchType.EAGER)
-	private List<Project> projects;
+	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	private Set<Project> projects;
 
 	public User() {
 		super();
 	}
-	
 
 	public User(long id, String login, String name, String surname, String password, UserRole userRole) {
 		super();
@@ -63,16 +77,13 @@ public class User {
 		this.userRole = userRole;
 	}
 
-
 	public UserRole getUserRole() {
 		return userRole;
 	}
 
-
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
-
 
 	public List<Activity> getActivities() {
 		return activities;
@@ -122,11 +133,11 @@ public class User {
 		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 	}
 
-	public List<Project> getProjects() {
+	public Set<Project> getProjects() {
 		return projects;
 	}
 
-	public void setProjects(List<Project> projects) {
+	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
 	}
 
@@ -142,13 +153,14 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((activities == null) ? 0 : activities.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((projects == null) ? 0 : projects.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		result = prime * result + ((tasks == null) ? 0 : tasks.hashCode());
+		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
 		return result;
 	}
 
@@ -161,6 +173,11 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (activities == null) {
+			if (other.activities != null)
+				return false;
+		} else if (!activities.equals(other.activities))
+			return false;
 		if (id != other.id)
 			return false;
 		if (login == null) {
@@ -178,11 +195,6 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (projects == null) {
-			if (other.projects != null)
-				return false;
-		} else if (!projects.equals(other.projects))
-			return false;
 		if (surname == null) {
 			if (other.surname != null)
 				return false;
@@ -192,6 +204,11 @@ public class User {
 			if (other.tasks != null)
 				return false;
 		} else if (!tasks.equals(other.tasks))
+			return false;
+		if (userRole == null) {
+			if (other.userRole != null)
+				return false;
+		} else if (!userRole.equals(other.userRole))
 			return false;
 		return true;
 	}
